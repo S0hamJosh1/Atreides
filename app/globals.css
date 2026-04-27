@@ -342,7 +342,6 @@ section {
   white-space: nowrap;
   user-select: none;
   pointer-events: none;
-  will-change: transform;
 }
 
 .hero__inner {
@@ -907,69 +906,7 @@ section {
 }
 
 
-/* Desktop hero pinning keeps the animated canvas in view while
-   content sections scroll in normal flow above it. */
-@media (min-width: 960px) and (min-height: 700px) {
-  .stack-main section {
-    scroll-margin-top: 0;
-  }
-
-  /* Keep the hero pinned behind the main content. */
-  .stack-main > .hero {
-    position: sticky;
-    top: 0;
-    z-index: 1;
-  }
-
-  /* Let content sections scroll normally above the hero backdrop. */
-  .stack-main > .section {
-    position: relative;
-    z-index: 2;
-    min-height: 100svh;
-    background:
-      radial-gradient(ellipse at 50% 0%, rgba(11, 123, 255, 0.06), transparent 50%),
-      linear-gradient(180deg, #0a1628 0%, #070e1c 100%);
-  }
-
-  /* Keep the use-cases tint while retaining the shared section base. */
-  .stack-main > .section--use-cases {
-    background:
-      linear-gradient(180deg, rgba(11, 123, 255, 0.07), transparent 40%),
-      radial-gradient(ellipse at 50% 0%, rgba(11, 123, 255, 0.06), transparent 50%),
-      linear-gradient(180deg, #0a1628 0%, #070e1c 100%);
-  }
-
-  /* Add a soft shadow where sections begin covering the hero. */
-  .stack-main > .section::before {
-    content: '';
-    position: absolute;
-    inset: -4rem 0 auto 0;
-    height: 4rem;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.45), transparent);
-    pointer-events: none;
-    z-index: 1;
-  }
-
-  /* Add a subtle edge highlight at the top of each section. */
-  .stack-main > .section::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 8%;
-    right: 8%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(91, 163, 255, 0.14), transparent);
-    pointer-events: none;
-    z-index: 2;
-  }
-}
-
 /* Respect reduced-motion */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-
-  .stack-main > .section::before,
-  .stack-main > .section::after {
-    display: none;
-  }
 }
