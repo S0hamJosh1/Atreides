@@ -907,45 +907,31 @@ section {
 }
 
 
-/* ——— Stacked-panel scroll takeover ———
-   Each section is position: sticky at top: 0 with increasing z-index.
-   As the user scrolls, later sections rise from the bottom edge of the
-   viewport and cover the earlier ones, creating a layered reveal effect.
-   The hero stays pinned behind everything so the liquid canvas remains
-   visible until the first content section slides over it.
-   Active only on desktop-class viewports (≥ 960 × 700).
-   ——————————————————————————————————————— */
-
+/* Desktop hero pinning keeps the animated canvas in view while
+   content sections scroll in normal flow above it. */
 @media (min-width: 960px) and (min-height: 700px) {
   .stack-main section {
     scroll-margin-top: 0;
   }
 
-  /* Hero — lowest layer, stays pinned behind everything */
+  /* Keep the hero pinned behind the main content. */
   .stack-main > .hero {
     position: sticky;
     top: 0;
     z-index: 1;
   }
 
-  /* Content sections — sticky panels with opaque backgrounds */
+  /* Let content sections scroll normally above the hero backdrop. */
   .stack-main > .section {
-    position: sticky;
-    top: 0;
+    position: relative;
+    z-index: 2;
     min-height: 100svh;
     background:
       radial-gradient(ellipse at 50% 0%, rgba(11, 123, 255, 0.06), transparent 50%),
       linear-gradient(180deg, #0a1628 0%, #070e1c 100%);
   }
 
-  /* Layered z-index — later panels cover earlier ones */
-  .stack-main > section:nth-of-type(2) { z-index: 2; }
-  .stack-main > section:nth-of-type(3) { z-index: 3; }
-  .stack-main > section:nth-of-type(4) { z-index: 4; }
-  .stack-main > section:nth-of-type(5) { z-index: 5; }
-  .stack-main > section:nth-of-type(6) { z-index: 6; }
-
-  /* Use-cases keeps its branded tint on top of the opaque base */
+  /* Keep the use-cases tint while retaining the shared section base. */
   .stack-main > .section--use-cases {
     background:
       linear-gradient(180deg, rgba(11, 123, 255, 0.07), transparent 40%),
@@ -953,7 +939,7 @@ section {
       linear-gradient(180deg, #0a1628 0%, #070e1c 100%);
   }
 
-  /* Shadow cast upward by the incoming panel — sells the "covering" depth */
+  /* Add a soft shadow where sections begin covering the hero. */
   .stack-main > .section::before {
     content: '';
     position: absolute;
@@ -964,7 +950,7 @@ section {
     z-index: 1;
   }
 
-  /* Subtle luminous edge at the panel's leading border */
+  /* Add a subtle edge highlight at the top of each section. */
   .stack-main > .section::after {
     content: '';
     position: absolute;
